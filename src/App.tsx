@@ -9,7 +9,7 @@ const App: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const correctPassword = "teacher123"; // Change this to your desired password
+  const correctPassword = "1403"; // Change this to your desired password
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
