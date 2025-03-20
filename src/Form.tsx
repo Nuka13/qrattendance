@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useParams } from "react-router-dom";
 import "./App.css";
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwP3OuiUAc4ZfzgvJrPKRJxBCAFAxrbSu8TP_0MWQ1HmhHZ7ocaB0YhfFbZCQtGeXwh/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkBGcao9qUk-_jzVXAqQmmyzhbCsDw-XxVM82SeRKJly31hqH3lcIupvRStyR4bno8/exec";
+
+// Simple function to generate a device ID based on browser properties
+const generateDeviceId = () => {
+  const userAgent = navigator.userAgent;
+  const language = navigator.language;
+  const screen = `${window.screen.width}x${window.screen.height}`;
+  const deviceId = btoa(userAgent + language + screen); // Simple hash of browser properties
+  return deviceId;
+};
 
 const Form: React.FC = () => {
   const [studentName, setStudentName] = useState("");
@@ -10,6 +19,8 @@ const Form: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
+  const { randomPath } = useParams<{ randomPath: string }>(); // Extract randomPath from the URL
+  const deviceId = generateDeviceId(); // Generate a device ID
 
   useEffect(() => {
     const sessionParam = searchParams.get("sessionId");
@@ -27,8 +38,8 @@ const Form: React.FC = () => {
       return;
     }
 
-    if (!sessionId) {
-      alert("No active session. Please scan a valid QR code.");
+    if (!sessionId || !randomPath) {
+      alert("No active session or invalid URL. Please scan a valid QR code.");
       return;
     }
 
@@ -38,8 +49,10 @@ const Form: React.FC = () => {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
           sessionId,
+          randomPath,
           studentName,
           jmbag,
+          deviceId,
         }).toString(),
       });
 
