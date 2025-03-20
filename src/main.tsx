@@ -9,7 +9,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/submit" element={<Form />} />
+        <Route path="/attendance-submit/:randomPath" element={<Form />} />
+        <Route path="/test-submit" element={<Form />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams, useParams } from "react-router-dom";
 import "./App.css";
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkBGcao9qUk-_jzVXAqQmmyzhbCsDw-XxVM82SeRKJly31hqH3lcIupvRStyR4bno8/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkBGcao9qUk-_jzVXAqQmmyzhbCsDw-XxVM82SeRKJly31hqH3lcIupvRStyR4bno8/exec"
 
 // Simple function to generate a device ID based on browser properties
 const generateDeviceId = () => {
@@ -21,9 +21,17 @@ const Form: React.FC = () => {
   const [searchParams] = useSearchParams();
   const { randomPath } = useParams<{ randomPath: string }>(); // Extract randomPath from the URL
   const deviceId = generateDeviceId(); // Generate a device ID
+  const tempRandomPath = randomPath || "temp"; // Fallback for static route
+
+  console.log("Form rendered");
+  console.log("Search params:", searchParams.toString());
+  console.log("Random path:", randomPath);
+  console.log("Device ID:", deviceId);
 
   useEffect(() => {
+    console.log("useEffect running");
     const sessionParam = searchParams.get("sessionId");
+    console.log("Session param:", sessionParam);
     if (sessionParam) {
       setSessionId(sessionParam);
     } else {
@@ -38,7 +46,7 @@ const Form: React.FC = () => {
       return;
     }
 
-    if (!sessionId || !randomPath) {
+    if (!sessionId || !tempRandomPath) {
       alert("No active session or invalid URL. Please scan a valid QR code.");
       return;
     }
@@ -49,7 +57,7 @@ const Form: React.FC = () => {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
           sessionId,
-          randomPath,
+          randomPath: tempRandomPath,
           studentName,
           jmbag,
           deviceId,
