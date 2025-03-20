@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./App.css";
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz-oOAHz1WjUrRJF4neJW2NujTowZQaZBHZD4jVFCIiygaQ-0SvU1hVcN8nxVw6RMo/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwP3OuiUAc4ZfzgvJrPKRJxBCAFAxrbSu8TP_0MWQ1HmhHZ7ocaB0YhfFbZCQtGeXwh/exec";
 
 const Form: React.FC = () => {
   const [studentName, setStudentName] = useState("");
